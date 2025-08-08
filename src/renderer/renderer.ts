@@ -1,6 +1,30 @@
 // Barcode generation interface handler
 
 document.addEventListener('DOMContentLoaded', () => {
+    // 타이틀바 버튼 이벤트 리스너
+    const minimizeBtn = document.querySelector('.title-bar button:nth-child(1)');
+    const maximizeBtn = document.querySelector('.title-bar button:nth-child(2)');
+    const closeBtn = document.querySelector('.title-bar button:nth-child(3)');
+
+    if (minimizeBtn) {
+        minimizeBtn.addEventListener('click', () => {
+            window.electronAPI?.minimizeWindow();
+        });
+    }
+
+    if (maximizeBtn) {
+        maximizeBtn.addEventListener('click', () => {
+            window.electronAPI?.maximizeWindow();
+        });
+    }
+
+    if (closeBtn) {
+        closeBtn.addEventListener('click', () => {
+            window.electronAPI?.closeWindow();
+        });
+    }
+
+    // 기존 폼 관련 코드
     const form = document.getElementById('barcode-form') as HTMLFormElement;
     const submitBtn = document.getElementById('submit-btn') as HTMLButtonElement;
     const previewBtn = document.getElementById('preview-btn') as HTMLButtonElement;

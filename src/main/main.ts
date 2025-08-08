@@ -1,4 +1,4 @@
-import { app, BrowserWindow } from 'electron';
+import { app, BrowserWindow, ipcMain } from 'electron';
 import path from 'path';
 import express from 'express';
 import fs from 'fs';
@@ -368,6 +368,8 @@ function createWindow() {
     mainWindow = new BrowserWindow({
         width: 1200,
         height: 800,
+        frame: false, // 시스템 타이틀바 숨김
+        titleBarStyle: 'hidden', // macOS용 추가 설정
         webPreferences: {
             preload: path.join(__dirname, '../preload/preload.js'),
             contextIsolation: true,
@@ -387,6 +389,29 @@ function createWindow() {
         mainWindow = null;
     });
 }
+
+// 윈도우 컨트롤 IPC 핸들러들
+ipcMain.handle('window-minimize', () => {
+    if (mainWindow) {
+        mainWindow.minimize();
+    }
+});
+
+ipcMain.handle('window-maximize', () => {
+    if (mainWindow) {
+        if (mainWindow.isMaximized()) {
+            mainWindow.unmaximize();
+        } else {
+            mainWindow.maximize();
+        }
+    }
+});
+
+ipcMain.handle('window-close', () => {
+    if (mainWindow) {
+        mainWindow.close();
+    }
+});
 
 app.on('ready', () => {
     startServer();

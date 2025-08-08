@@ -1,2 +1,9 @@
+import { contextBridge, ipcRenderer } from 'electron';
+
 // Preload script for barcode batch generator
-// Currently no IPC communication needed as all API calls go through HTTP server
+// 윈도우 컨트롤 API 노출
+contextBridge.exposeInMainWorld('electronAPI', {
+    minimizeWindow: () => ipcRenderer.invoke('window-minimize'),
+    maximizeWindow: () => ipcRenderer.invoke('window-maximize'),
+    closeWindow: () => ipcRenderer.invoke('window-close'),
+});
