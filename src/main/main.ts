@@ -379,6 +379,7 @@ function createWindow() {
         height: 800,
         frame: true, // 시스템 타이틀바 표시
         // titleBarStyle: 'hidden', // macOS용 추가 설정 - 주석 처리
+        icon: path.join(__dirname, '../renderer/assets/icon.png'), // PNG 아이콘 설정
         webPreferences: {
             preload: path.join(__dirname, '../preload/preload.js'),
             contextIsolation: true,

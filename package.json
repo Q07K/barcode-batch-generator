@@ -6,7 +6,7 @@
   "scripts": {
     "start": "npm run build && electron .",
     "dev": "npm run build && electron . --dev",
-    "build": "tsc && powershell -Command \"New-Item -ItemType Directory -Path 'dist/renderer' -Force; Copy-Item 'src/renderer/index.html' 'dist/renderer/'; Copy-Item 'src/renderer/styles.css' 'dist/renderer/'\"",
+    "build": "tsc && powershell -Command \"New-Item -ItemType Directory -Path 'dist/renderer' -Force; Copy-Item 'src/renderer/index.html' 'dist/renderer/'; Copy-Item 'src/renderer/styles.css' 'dist/renderer/'; Copy-Item -Recurse 'src/renderer/assets' 'dist/renderer/' -Force\"",
     "build-app": "electron-builder",
     "dist": "npm run build && npm run build-app",
     "clean": "Remove-Item -Recurse -Force dist -ErrorAction SilentlyContinue; Remove-Item -Recurse -Force release -ErrorAction SilentlyContinue"
@@ -30,6 +30,7 @@
       "dist/**/*",
       "src/renderer/index.html",
       "src/renderer/styles.css",
+      "src/renderer/assets/**/*",
       "node_modules/**/*",
       "package.json"
     ],
