@@ -205,17 +205,22 @@ function startServer() {
 
     // 바코드 미리보기 API
     expressApp.post('/preview-barcode', async (req, res) => {
+        console.log('Preview API called with body:', req.body); // Debug log
+        
         try {
             const { code, heightMM, widthMM, fileFormat } = req.body;
 
             if (!code?.trim()) {
+                console.log('No code provided'); // Debug log
                 return res.status(400).json({ error: '바코드 번호를 입력해주세요.' });
             }
 
             const cleanCode = code.trim().replace(/\s+/g, '');
             const type = detectBarcodeType(cleanCode);
+            console.log('Detected type:', type, 'for code:', cleanCode); // Debug log
 
             if (!type || !validateCode(cleanCode, type)) {
+                console.log('Invalid code:', cleanCode, 'type:', type); // Debug log
                 return res.status(400).json({ 
                     error: '유효하지 않은 바코드 번호입니다. (14자리: ITF-14, 12~13자리: EAN-13)' 
                 });
@@ -228,7 +233,11 @@ function startServer() {
             const filename = `preview_${cleanCode}_${Date.now()}${extension}`;
             const outPath = path.join(app.getPath('temp'), filename);
 
+            console.log('Generating barcode with params:', { code: cleanCode, type, heightMM: h, widthMM: w, outPath, fileFormat: format }); // Debug log
+
             await generateBarcodeWithBwip({ code: cleanCode, type, heightMM: h, widthMM: w, outPath, fileFormat: format });
+            
+            console.log('Barcode generated successfully at:', outPath); // Debug log
             
             let imageData: string;
             if (format === 'svg') {

@@ -68,31 +68,46 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // 바코드 미리보기 기능
     previewBtn?.addEventListener('click', async () => {
+        console.log('Preview button clicked'); // Debug log
+        
         const barcodeNumbers = getBarcodeNumbers();
+        console.log('Barcode numbers:', barcodeNumbers); // Debug log
+        
         if (barcodeNumbers.length === 0) {
             alert('바코드 번호를 입력해주세요.');
             return;
         }
 
         const options = getOptions();
+        console.log('Options:', options); // Debug log
+        
         setLoadingState(previewBtn, true, '생성 중...', '첫 번째 바코드 미리보기');
 
         try {
+            const requestBody = {
+                code: barcodeNumbers[0],
+                ...options
+            };
+            console.log('Request body:', requestBody); // Debug log
+            console.log('Making request to:', PREVIEW_API); // Debug log
+            
             const response = await fetch(PREVIEW_API, {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({
-                    code: barcodeNumbers[0],
-                    ...options
-                })
+                body: JSON.stringify(requestBody)
             });
+
+            console.log('Response status:', response.status); // Debug log
+            console.log('Response ok:', response.ok); // Debug log
 
             if (!response.ok) {
                 const errorData = await response.json();
+                console.error('Error data:', errorData); // Debug log
                 throw new Error(errorData.error || '미리보기 생성 실패');
             }
 
             const result = await response.json();
+            console.log('Result:', result); // Debug log
             
             previewContent.innerHTML = `
                 <div class="space-y-3">
