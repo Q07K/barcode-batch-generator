@@ -16,8 +16,7 @@
 
 1. [Releases 페이지](https://github.com/Q07K/barcode-batch-generator/releases)로 이동
 2. 최신 버전에서 운영체제에 맞는 파일 다운로드:
-   - **Windows**: `barcode-batch-generator-win32-x64.zip` (압축 해제 후 `barcode-batch-generator.exe` 실행)
-   - **macOS**: `(준비중)`
+   - **Windows**: `barcode-batch-generator-win32-x64.zip`
    - **Linux**: `(준비중)`
 3. 다운로드한 파일을 압축 해제
 4. 압축 해제된 폴더에서 `barcode-batch-generator.exe` 실행
