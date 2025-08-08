@@ -1,6 +1,8 @@
 # Barcode Batch Generator
 
+<img width="2880" height="1740" alt="image" src="https://github.com/user-attachments/assets/2591a761-ac3a-45c4-927c-8efcc910cf46" />
 바코드를 일괄 생성할 수 있는 Electron 기반 데스크톱 애플리케이션입니다.
+
 
 ## 프로그램 소개
 
