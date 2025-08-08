@@ -33,26 +33,45 @@ jobs:
     - name: Build distributable
       run: npm run dist
       
+    - name: Package Windows build
+      if: matrix.os == 'windows-latest'
+      run: |
+        cd release
+        Compress-Archive -Path win-unpacked -DestinationPath barcode-batch-generator-win32-x64.zip
+      shell: pwsh
+      
     - name: Upload Windows artifacts
       if: matrix.os == 'windows-latest'
       uses: actions/upload-artifact@v4
       with:
         name: windows-build
-        path: release/*.exe
+        path: release/barcode-batch-generator-win32-x64.zip
+        
+    - name: Package macOS build
+      if: matrix.os == 'macos-latest'
+      run: |
+        cd release
+        zip -r barcode-batch-generator-darwin-x64.zip *.app || echo "No .app files found"
         
     - name: Upload macOS artifacts
       if: matrix.os == 'macos-latest'
       uses: actions/upload-artifact@v4
       with:
         name: macos-build
-        path: release/*.dmg
+        path: release/barcode-batch-generator-darwin-x64.zip
+        
+    - name: Package Linux build
+      if: matrix.os == 'ubuntu-latest'
+      run: |
+        cd release
+        zip -r barcode-batch-generator-linux-x64.zip *.AppImage || echo "No AppImage files found"
         
     - name: Upload Linux artifacts
       if: matrix.os == 'ubuntu-latest'
       uses: actions/upload-artifact@v4
       with:
         name: linux-build
-        path: release/*.AppImage
+        path: release/barcode-batch-generator-linux-x64.zip
         
   release:
     needs: build
