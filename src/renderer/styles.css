@@ -8,23 +8,30 @@
 
 body {
     font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-    overflow: hidden;
+    background: linear-gradient(135deg, #1a1a1a 0%, #2d2d30 50%, #1e1e1e 100%);
     height: 100vh;
+    margin: 0;
+    padding: 0;
     display: flex;
     flex-direction: column;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
     user-select: none;
+    color: #e8e8e8;
+    overflow: hidden;
 }
 
 /* Custom Title Bar Styles */
 .title-bar {
     -webkit-app-region: drag;
-    background: linear-gradient(135deg, rgba(102, 126, 234, 0.9) 0%, rgba(118, 75, 162, 0.9) 100%);
+    background: linear-gradient(135deg, rgba(26, 26, 26, 0.95) 0%, rgba(45, 45, 48, 0.95) 100%);
     backdrop-filter: blur(10px);
     -webkit-backdrop-filter: blur(10px);
-    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+    height: 32px;
+    min-height: 32px;
+    flex-shrink: 0;
+    z-index: 1000;
 }
 
 .title-bar button {
@@ -33,19 +40,19 @@ body {
 
 /* Glassmorphism Effect */
 .glassmorphism {
-    background: rgba(255, 255, 255, 0.25);
+    background: rgba(45, 45, 48, 0.4);
     backdrop-filter: blur(15px);
     -webkit-backdrop-filter: blur(15px);
-    border: 1px solid rgba(255, 255, 255, 0.2);
-    box-shadow: 0 25px 45px rgba(0, 0, 0, 0.1);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    box-shadow: 0 25px 45px rgba(0, 0, 0, 0.3);
 }
 
 /* Card Shadow */
 .card-shadow {
     box-shadow: 
-        0 25px 50px -12px rgba(0, 0, 0, 0.25),
-        0 20px 25px -5px rgba(0, 0, 0, 0.1),
-        0 10px 10px -5px rgba(0, 0, 0, 0.04);
+        0 25px 50px -12px rgba(0, 0, 0, 0.5),
+        0 20px 25px -5px rgba(0, 0, 0, 0.3),
+        0 10px 10px -5px rgba(0, 0, 0, 0.1);
 }
 
 /* Hover Scale Effect */
@@ -64,7 +71,7 @@ input, textarea, select {
 
 input:focus, textarea:focus, select:focus {
     transform: translateY(-1px);
-    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.3);
 }
 
 /* Button Styles */
@@ -75,7 +82,7 @@ button {
 
 button:hover {
     transform: translateY(-2px);
-    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.4);
 }
 
 button:active {
@@ -88,24 +95,140 @@ button:active {
 }
 
 ::-webkit-scrollbar-track {
-    background: rgba(255, 255, 255, 0.1);
+    background: rgba(45, 45, 48, 0.3);
     border-radius: 4px;
 }
 
 ::-webkit-scrollbar-thumb {
-    background: rgba(255, 255, 255, 0.3);
+    background: rgba(102, 102, 102, 0.6);
     border-radius: 4px;
     transition: background 0.3s ease;
 }
 
 ::-webkit-scrollbar-thumb:hover {
-    background: rgba(255, 255, 255, 0.5);
+    background: rgba(136, 136, 136, 0.8);
+}
+
+/* Custom Scrollbar Class */
+.custom-scrollbar {
+    scrollbar-width: thin;
+    scrollbar-color: rgba(102, 102, 102, 0.6) rgba(45, 45, 48, 0.3);
+    overflow-y: auto;
+    overflow-x: hidden;
+}
+
+.custom-scrollbar::-webkit-scrollbar {
+    width: 10px;
+}
+
+.custom-scrollbar::-webkit-scrollbar-track {
+    background: rgba(26, 26, 26, 0.4);
+    border-radius: 5px;
+    margin: 4px;
+}
+
+.custom-scrollbar::-webkit-scrollbar-thumb {
+    background: linear-gradient(135deg, rgba(102, 102, 102, 0.7) 0%, rgba(80, 80, 80, 0.8) 100%);
+    border-radius: 5px;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    transition: all 0.3s ease;
+}
+
+.custom-scrollbar::-webkit-scrollbar-thumb:hover {
+    background: linear-gradient(135deg, rgba(136, 136, 136, 0.9) 0%, rgba(102, 102, 102, 0.9) 100%);
+    transform: scaleX(1.2);
+}
+
+.custom-scrollbar::-webkit-scrollbar-thumb:active {
+    background: linear-gradient(135deg, rgba(150, 150, 150, 0.9) 0%, rgba(120, 120, 120, 0.9) 100%);
+}
+
+/* Main content scrolling */
+.main-content-scroll {
+    flex: 1;
+    height: calc(100vh - 32px); /* 타이틀바 높이만큼 빼기 */
+    overflow-y: auto;
+    overflow-x: hidden;
+    scroll-behavior: smooth;
+    scrollbar-width: thin;
+    scrollbar-color: rgba(102, 102, 102, 0.6) rgba(45, 45, 48, 0.3);
+}
+
+.main-content-scroll::-webkit-scrollbar {
+    width: 12px;
+}
+
+.main-content-scroll::-webkit-scrollbar-track {
+    background: rgba(26, 26, 26, 0.2);
+    border-radius: 6px;
+}
+
+.main-content-scroll::-webkit-scrollbar-thumb {
+    background: linear-gradient(135deg, rgba(102, 102, 102, 0.8) 0%, rgba(80, 80, 80, 0.9) 100%);
+    border-radius: 6px;
+    border: 2px solid rgba(26, 26, 26, 0.3);
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.main-content-scroll::-webkit-scrollbar-thumb:hover {
+    background: linear-gradient(135deg, rgba(136, 136, 136, 0.95) 0%, rgba(102, 102, 102, 0.95) 100%);
+    border: 2px solid rgba(255, 255, 255, 0.1);
+}
+
+.content-wrapper {
+    padding: 1.5rem;
+    display: flex;
+    align-items: flex-start;
+    justify-content: center;
+    min-height: calc(100vh - 32px - 3rem); /* 타이틀바와 패딩 제외 */
+}
+
+/* Enhanced mouse wheel support */
+.wheel-scroll-enabled {
+    overflow-y: auto;
+    overscroll-behavior: contain;
+    scroll-behavior: smooth;
+    -webkit-overflow-scrolling: touch; /* iOS smooth scrolling */
+}
+
+/* Prevent body scroll when main container is scrolling */
+body.scroll-lock {
+    overflow: hidden;
+}
+
+/* Visual feedback for scroll areas */
+.scroll-indicator {
+    position: absolute;
+    top: 0;
+    right: 0;
+    width: 4px;
+    height: 100%;
+    background: linear-gradient(to bottom, 
+        rgba(102, 102, 102, 0.3) 0%,
+        rgba(102, 102, 102, 0.1) 50%,
+        rgba(102, 102, 102, 0.3) 100%);
+    opacity: 0;
+    transition: opacity 0.3s ease;
+    pointer-events: none;
+}
+
+.main-scroll-container:hover .scroll-indicator {
+    opacity: 1;
+}
+
+/* Smooth scrolling */
+html {
+    scroll-behavior: smooth;
+}
+
+.custom-scrollbar {
+    scroll-behavior: smooth;
 }
 
 /* Loading Animation */
 .loader {
-    border: 3px solid rgba(255, 255, 255, 0.2);
-    border-top: 3px solid #ffffff;
+    border: 3px solid rgba(102, 102, 102, 0.2);
+    border-top: 3px solid #888888;
     border-radius: 50%;
     width: 32px;
     height: 32px;
@@ -122,23 +245,163 @@ button:active {
     .title-bar {
         height: 28px;
     }
+    
+    .main-content-scroll {
+        height: calc(100vh - 28px);
+    }
+    
+    .content-wrapper {
+        min-height: calc(100vh - 28px - 3rem);
+    }
+    
+    .main-content-scroll::-webkit-scrollbar {
+        width: 8px;
+    }
+}
+
+@media (max-height: 600px) {
+    .main-content-scroll::-webkit-scrollbar {
+        width: 6px;
+    }
+    
+    .content-wrapper {
+        padding: 1rem;
+        min-height: calc(100vh - 28px - 2rem);
+    }
+}
+
+@media (max-height: 500px) {
+    .content-wrapper {
+        padding: 0.5rem;
+        min-height: calc(100vh - 28px - 1rem);
+    }
+    
+    .main-content-scroll::-webkit-scrollbar {
+        width: 4px;
+    }
+}
+
+/* Additional scrolling improvements for form elements */
+.form-container {
+    /* Remove height restrictions to allow natural scrolling */
+    overflow: visible;
+}
+
+/* Ensure smooth scrolling on all elements */
+* {
+    scroll-behavior: smooth;
+}
+
+/* Focus styles for keyboard navigation */
+button:focus, input:focus, textarea:focus, select:focus {
+    outline: 2px solid rgba(136, 136, 136, 0.6);
+    outline-offset: 2px;
+}
+
+/* Hide focus outline for mouse users - simplified */
+button:focus:not(:focus-visible), 
+input:focus:not(:focus-visible), 
+textarea:focus:not(:focus-visible), 
+select:focus:not(:focus-visible) {
+    outline: none;
+}
+
+/* Focus styles for keyboard navigation */
+.main-content-scroll:focus {
+    outline: 2px solid rgba(136, 136, 136, 0.3);
+    outline-offset: -2px;
 }
 
 /* Dark Mode Support */
 @media (prefers-color-scheme: dark) {
     .glassmorphism {
-        background: rgba(0, 0, 0, 0.25);
-        border: 1px solid rgba(255, 255, 255, 0.1);
+        background: rgba(26, 26, 26, 0.4);
+        border: 1px solid rgba(255, 255, 255, 0.05);
     }
 }
 
 /* Selection Styles */
 ::selection {
-    background: rgba(255, 255, 255, 0.3);
-    color: white;
+    background: rgba(136, 136, 136, 0.4);
+    color: #e8e8e8;
 }
 
 ::-moz-selection {
-    background: rgba(255, 255, 255, 0.3);
-    color: white;
+    background: rgba(136, 136, 136, 0.4);
+    color: #e8e8e8;
+}
+
+/* Additional Dark Charcoal Theme Styles */
+input, textarea, select {
+    background: rgba(45, 45, 48, 0.6);
+    color: #e8e8e8;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+input::placeholder, textarea::placeholder {
+    color: #a0a0a0;
+}
+
+button {
+    background: rgba(60, 60, 63, 0.8);
+    color: #e8e8e8;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+button:hover {
+    background: rgba(80, 80, 83, 0.9);
+}
+
+/* Card backgrounds */
+.bg-white {
+    background: rgba(45, 45, 48, 0.4) !important;
+    color: #e8e8e8 !important;
+}
+
+/* Text colors override */
+.text-gray-900 {
+    color: #e8e8e8 !important;
+}
+
+.text-gray-700 {
+    color: #b8b8b8 !important;
+}
+
+.text-gray-600 {
+    color: #a0a0a0 !important;
+}
+
+.text-gray-500 {
+    color: #888888 !important;
+}
+
+/* Button hover effects */
+.bg-gray-600:hover {
+    background-color: rgba(75, 85, 99, 0.9) !important;
+}
+
+.bg-gray-700:hover {
+    background-color: rgba(55, 65, 81, 0.9) !important;
+}
+
+/* Form elements focus states */
+input:focus, textarea:focus, select:focus {
+    outline: none;
+    box-shadow: 0 0 0 2px rgba(107, 114, 128, 0.5);
+    border-color: rgba(107, 114, 128, 0.5);
+}
+
+/* Select dropdown styling */
+select option {
+    background-color: #374151;
+    color: #e8e8e8;
+}
+
+/* Gradient button alternative styles */
+.bg-gradient-to-r {
+    background: linear-gradient(135deg, #4b5563 0%, #374151 100%);
+}
+
+.bg-gradient-to-r:hover {
+    background: linear-gradient(135deg, #374151 0%, #2d3748 100%);
 }

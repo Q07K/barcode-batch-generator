@@ -176,4 +176,42 @@ document.addEventListener('DOMContentLoaded', () => {
             setLoadingState(submitBtn, false, '생성 중...', '바코드 생성');
         }
     });
+
+    // Simple and effective mouse wheel scrolling
+    const mainContentScroll = document.querySelector('.main-content-scroll') as HTMLElement;
+    
+    if (mainContentScroll) {
+        // Enable native scroll behavior - remove any scroll behavior override
+        mainContentScroll.style.scrollBehavior = 'smooth';
+        
+        // Ensure the element can receive mouse events
+        mainContentScroll.addEventListener('mouseenter', () => {
+            mainContentScroll.focus();
+        });
+        
+        // Make sure the element is focusable for keyboard navigation
+        mainContentScroll.tabIndex = 0;
+        
+        // Optional: Add keyboard navigation
+        mainContentScroll.addEventListener('keydown', (e: KeyboardEvent) => {
+            switch (e.key) {
+                case 'ArrowUp':
+                    e.preventDefault();
+                    mainContentScroll.scrollBy({ top: -50, behavior: 'smooth' });
+                    break;
+                case 'ArrowDown':
+                    e.preventDefault();
+                    mainContentScroll.scrollBy({ top: 50, behavior: 'smooth' });
+                    break;
+                case 'PageUp':
+                    e.preventDefault();
+                    mainContentScroll.scrollBy({ top: -300, behavior: 'smooth' });
+                    break;
+                case 'PageDown':
+                    e.preventDefault();
+                    mainContentScroll.scrollBy({ top: 300, behavior: 'smooth' });
+                    break;
+            }
+        });
+    }
 });

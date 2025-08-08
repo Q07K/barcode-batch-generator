@@ -368,8 +368,8 @@ function createWindow() {
     mainWindow = new BrowserWindow({
         width: 1200,
         height: 800,
-        frame: false, // 시스템 타이틀바 숨김
-        titleBarStyle: 'hidden', // macOS용 추가 설정
+        frame: true, // 시스템 타이틀바 표시
+        // titleBarStyle: 'hidden', // macOS용 추가 설정 - 주석 처리
         webPreferences: {
             preload: path.join(__dirname, '../preload/preload.js'),
             contextIsolation: true,
