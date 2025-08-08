@@ -16,11 +16,11 @@
 
 1. [Releases 페이지](https://github.com/Q07K/barcode-batch-generator/releases)로 이동
 2. 최신 버전에서 운영체제에 맞는 파일 다운로드:
-   - **Windows**: `Barcode-Batch-Generator-Setup-x.x.x.exe`
-   - **macOS**: `Barcode-Batch-Generator-x.x.x.dmg`
-   - **Linux**: `Barcode-Batch-Generator-x.x.x.AppImage`
-3. 다운로드한 파일을 실행하여 설치
-4. 설치 완료 후 프로그램 실행
+   - **Windows**: `barcode-batch-generator-win32-x64.zip` (압축 해제 후 `barcode-batch-generator.exe` 실행)
+   - **macOS**: `(준비중)`
+   - **Linux**: `(준비중)`
+3. 다운로드한 파일을 압축 해제
+4. 압축 해제된 폴더에서 `barcode-batch-generator.exe` 실행
 
 ### 방법 2: 소스코드에서 직접 실행
 
@@ -66,6 +66,9 @@
    ```bash
    npm run dist
    ```
+   - 생성 위치: `release/win-unpacked/`
+   - ⚠️ **Windows에서는 반드시 관리자 모드로 PowerShell을 실행**해야 함
+   - PowerShell을 "관리자 권한으로 실행" 후 명령어 실행
 
 ### 프로젝트 구조
 
@@ -93,7 +96,8 @@ barcode-batch-generator/
 - `npm start` - 애플리케이션 빌드 후 실행
 - `npm run dev` - 개발 모드로 실행
 - `npm run build` - TypeScript를 JavaScript로 컴파일
-- `npm run dist` - 배포용 실행파일 생성
+- `npm run dist` - 배포용 실행파일 생성 (관리자 권한 필요)
+- `npm run clean` - 빌드 및 배포 파일 정리
 
 ## 문제 해결
 
@@ -118,6 +122,10 @@ barcode-batch-generator/
    npm run build
    npm start
    ```
+
+5. **`npm run dist` 실행 시 "Cannot create symbolic link" 오류**
+   - **해결 방법**: 관리자 권한으로 PowerShell 실행
+   - PowerShell을 "관리자 권한으로 실행" 후 `npm run dist` 명령어 실행
 
 ### 지원 받기
 
