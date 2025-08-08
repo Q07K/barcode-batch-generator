@@ -1,0 +1,73 @@
+{
+  "name": "barcode-batch-generator",
+  "version": "1.0.0",
+  "description": "바코드를 일괄 생성할 수 있는 Electron 기반 데스크톱 애플리케이션",
+  "main": "dist/main/main.js",
+  "scripts": {
+    "start": "npm run build && electron .",
+    "dev": "npm run build && electron . --dev",
+    "build": "tsc && powershell -Command \"New-Item -ItemType Directory -Path 'dist/renderer' -Force; Copy-Item 'src/renderer/index.html' 'dist/renderer/'; Copy-Item 'src/renderer/styles.css' 'dist/renderer/'\"",
+    "build-app": "electron-builder",
+    "dist": "npm run build && npm run build-app",
+    "clean": "Remove-Item -Recurse -Force dist -ErrorAction SilentlyContinue; Remove-Item -Recurse -Force release -ErrorAction SilentlyContinue"
+  },
+  "devDependencies": {
+    "@types/archiver": "^6.0.3",
+    "@types/cors": "^2.8.19",
+    "@types/express": "^5.0.3",
+    "@types/node": "^20.14.0",
+    "electron": "^32.0.0",
+    "electron-builder": "^24.13.0",
+    "typescript": "^5.5.0"
+  },
+  "build": {
+    "appId": "com.q07k.barcode-batch-generator",
+    "productName": "Barcode Batch Generator",
+    "directories": {
+      "output": "release"
+    },
+    "files": [
+      "dist/**/*",
+      "src/renderer/index.html",
+      "src/renderer/styles.css",
+      "node_modules/**/*",
+      "package.json"
+    ],
+    "win": {
+      "target": "portable",
+      "publish": null,
+      "sign": null,
+      "certificateFile": null,
+      "certificatePassword": null
+    },
+    "mac": {
+      "target": "dmg",
+      "publish": null
+    },
+    "linux": {
+      "target": "AppImage",
+      "publish": null
+    },
+    "nsis": {
+      "oneClick": false,
+      "allowToChangeInstallationDirectory": true
+    }
+  },
+  "keywords": [
+    "barcode",
+    "generator",
+    "electron",
+    "desktop",
+    "batch"
+  ],
+  "author": "Q07K",
+  "license": "ISC",
+  "dependencies": {
+    "archiver": "^7.0.1",
+    "bwip-js": "^4.7.0",
+    "canvas": "^3.1.2",
+    "cors": "^2.8.5",
+    "express": "^5.1.0",
+    "jsbarcode": "^3.12.1"
+  }
+}
