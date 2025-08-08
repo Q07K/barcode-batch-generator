@@ -34,12 +34,20 @@
       "node_modules/**/*",
       "package.json"
     ],
+    "compression": "store",
     "win": {
-      "target": "portable",
+      "target": [
+        {
+          "target": "dir",
+          "arch": [
+            "x64"
+          ]
+        }
+      ],
       "publish": null,
       "sign": null,
-      "certificateFile": null,
-      "certificatePassword": null
+      "signAndEditExecutable": false,
+      "signDlls": false
     },
     "mac": {
       "target": "dmg",
