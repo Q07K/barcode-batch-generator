@@ -6,6 +6,7 @@
     <title>바코드 일괄 생성기</title>
     <link rel="icon" type="image/svg+xml" href="./assets/favicon.svg">
     <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bwip-js@4.5.1/dist/bwip-js-min.js"></script>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
     <style>
@@ -126,7 +127,6 @@
                         <!-- Size Settings -->
                         <div class="space-y-4">
                             <h3 class="flex items-center text-sm font-medium text-gray-200">
-                                <i class="fas fa-rulers mr-2"></i>
                                 크기 설정
                             </h3>
                             <div class="grid grid-cols-2 gap-4">
@@ -148,10 +148,14 @@
                         <!-- File Settings -->
                         <div class="space-y-4">
                             <h3 class="flex items-center text-sm font-medium text-gray-200">
-                                <i class="fas fa-file-alt mr-2"></i>
                                 파일 설정
                             </h3>
-                            <div class="space-y-3">
+                            <div class="grid grid-cols-2 gap-4">
+                                <div>
+                                    <label for="filenamePrefix" class="block text-sm text-gray-300 mb-2">파일명 접두사 (선택)</label>
+                                    <input type="text" id="filenamePrefix" name="filenamePrefix" placeholder="예: my_barcode_" 
+                                           class="w-full bg-gray-700 bg-opacity-80 border border-gray-600 rounded-lg py-3 px-4 text-gray-100 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-gray-500 focus:border-gray-500 transition-all duration-200">
+                                </div>
                                 <div>
                                     <label for="fileFormat" class="block text-sm text-gray-300 mb-2">파일 형식</label>
                                     <select id="fileFormat" name="fileFormat" 
@@ -160,11 +164,6 @@
                                         <option value="png">PNG</option>
                                         <option value="svg">SVG</option>
                                     </select>
-                                </div>
-                                <div>
-                                    <label for="filenamePrefix" class="block text-sm text-gray-300 mb-2">파일명 접두사 (선택)</label>
-                                    <input type="text" id="filenamePrefix" name="filenamePrefix" placeholder="예: my_barcode_" 
-                                           class="w-full bg-gray-700 bg-opacity-80 border border-gray-600 rounded-lg py-3 px-4 text-gray-100 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-gray-500 focus:border-gray-500 transition-all duration-200">
                                 </div>
                             </div>
                         </div>
