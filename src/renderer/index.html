@@ -26,7 +26,7 @@
     <div class="w-full max-w-xl mx-auto bg-white rounded-xl shadow-lg p-8 space-y-6">
         <div class="text-center">
             <h1 class="text-3xl font-bold text-gray-800">바코드 일괄 생성기</h1>
-            <p class="text-gray-500 mt-2">바코드 번호를 입력하면 자동으로 종류를 감지하여 PNG 파일로 생성합니다.</p>
+            <p class="text-gray-500 mt-2">바코드 번호를 입력하면 자동으로 종류를 감지하여 바코드를 생성합니다.</p>
             <p class="text-xs text-blue-600 mt-1">14자리: ITF-14 | 12~13자리: EAN-13</p>
         </div>
 
@@ -70,6 +70,18 @@
                     <p class="text-xs text-gray-500 mt-1">1.0-10.0</p>
                 </div>
             </div>
+            
+            <!-- 파일 형식 선택 -->
+            <div>
+                <label for="fileFormat" class="block text-sm font-medium text-gray-700">파일 형식</label>
+                <select id="fileFormat" name="fileFormat" class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 text-sm">
+                    <option value="png">PNG (Portable Network Graphics)</option>
+                    <option value="svg">SVG (Scalable Vector Graphics)</option>
+                    <option value="eps">EPS (Encapsulated PostScript)</option>
+                </select>
+                <p class="text-xs text-gray-500 mt-1">PNG: 래스터 이미지, SVG: 벡터 이미지, EPS: 인쇄용 벡터 파일</p>
+            </div>
+            
              <div>
                 <label for="filenamePrefix" class="block text-sm font-medium text-gray-700">파일명 접두사 (선택)</label>
                 <input type="text" id="filenamePrefix" name="filenamePrefix" placeholder="예: my_barcode_" class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3">

@@ -27,7 +27,8 @@ document.addEventListener('DOMContentLoaded', () => {
     const getOptions = () => ({
         heightMM: (document.getElementById('heightMM') as HTMLInputElement).value,
         widthMM: (document.getElementById('widthMM') as HTMLInputElement).value,
-        filenamePrefix: (document.getElementById('filenamePrefix') as HTMLInputElement).value
+        filenamePrefix: (document.getElementById('filenamePrefix') as HTMLInputElement).value,
+        fileFormat: (document.getElementById('fileFormat') as HTMLSelectElement).value
     });
 
     // 공통 함수: 로딩 상태 설정
@@ -77,6 +78,7 @@ document.addEventListener('DOMContentLoaded', () => {
                         <p><strong>타입:</strong> ${result.type}</p>
                         <p><strong>높이:</strong> ${options.heightMM}mm</p>
                         <p><strong>너비 배율:</strong> ${options.widthMM}x</p>
+                        <p><strong>파일 형식:</strong> ${options.fileFormat.toUpperCase()}</p>
                     </div>
                 </div>
             `;
