@@ -66,12 +66,41 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     };
 
+    // 바코드 타입 결정 함수
+    const determineBarcodeType = (code: string): { type: string; symbology: string; config: any } => {
+        const length = code.length;
+        if (length === 14) {
+            return { 
+                type: 'itf14', 
+                symbology: 'itf14',
+                config: {
+                    textyoffset: 5,
+                    includecheck: true
+                }
+            };
+        } else if (length === 12 || length === 13) {
+            return { 
+                type: 'ean13', 
+                symbology: 'ean13',
+                config: {
+                    textyoffset: -5
+                }
+            };
+        } else {
+            return { 
+                type: 'code128', 
+                symbology: 'code128',
+                config: {}
+            };
+        }
+    };
+
     // 바코드 미리보기 기능
     previewBtn?.addEventListener('click', async () => {
-        console.log('Preview button clicked'); // Debug log
+        console.log('Preview button clicked');
         
         const barcodeNumbers = getBarcodeNumbers();
-        console.log('Barcode numbers:', barcodeNumbers); // Debug log
+        console.log('Barcode numbers:', barcodeNumbers);
         
         if (barcodeNumbers.length === 0) {
             alert('바코드 번호를 입력해주세요.');
@@ -79,45 +108,40 @@ document.addEventListener('DOMContentLoaded', () => {
         }
 
         const options = getOptions();
-        console.log('Options:', options); // Debug log
+        const firstCode = barcodeNumbers[0];
+        const { type } = determineBarcodeType(firstCode);
         
         setLoadingState(previewBtn, true, '생성 중...', '첫 번째 바코드 미리보기');
 
         try {
-            const requestBody = {
-                code: barcodeNumbers[0],
-                ...options
-            };
-            console.log('Request body:', requestBody); // Debug log
-            console.log('Making request to:', PREVIEW_API); // Debug log
-            
+            // 서버 API를 사용하여 미리보기 생성 (항상 PNG로 미리보기)
             const response = await fetch(PREVIEW_API, {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify(requestBody)
+                body: JSON.stringify({
+                    code: firstCode,
+                    xScale: options.xScale,
+                    yScale: options.yScale,
+                    fileFormat: 'png' // 미리보기는 항상 PNG로
+                }),
             });
-
-            console.log('Response status:', response.status); // Debug log
-            console.log('Response ok:', response.ok); // Debug log
 
             if (!response.ok) {
                 const errorData = await response.json();
-                console.error('Error data:', errorData); // Debug log
-                throw new Error(errorData.error || '미리보기 생성 실패');
+                throw new Error(errorData.error || `HTTP 오류! 상태: ${response.status}`);
             }
 
             const result = await response.json();
-            console.log('Result:', result); // Debug log
+            
+            console.log('Preview API result:', result); // 디버깅용
             
             previewContent.innerHTML = `
                 <div class="space-y-3">
-                    <img src="${result.image}" alt="바코드 미리보기" class="mx-auto border border-gray-300 p-2 bg-white rounded">
+                    <img src="${result.image}" alt="바코드 미리보기" class="mx-auto border border-gray-300 p-2 bg-white rounded" style="max-width: 100%;" onerror="console.error('Image load failed:', this.src)">
                     <div class="text-sm text-gray-600">
-                        <p><strong>번호:</strong> ${result.code}</p>
-                        <p><strong>타입:</strong> ${result.type}</p>
-                        <p><strong>X 스케일:</strong> ${options.xScale}x</p>
-                        <p><strong>Y 스케일:</strong> ${options.yScale}x</p>
-                        <p><strong>파일 형식:</strong> ${options.fileFormat.toUpperCase()}</p>
+                        <p><strong>번호:</strong> ${result.code}<strong> / </strong><strong>타입:</strong> ${result.type}</p>
+                        <p><strong>X 스케일:</strong> ${options.xScale}x<strong> / </strong><strong>Y 스케일:</strong> ${options.yScale}x<strong> / </strong><strong>파일 형식:</strong> ${result.format}</p>
+                        <p></p>
                     </div>
                 </div>
             `;
@@ -126,7 +150,8 @@ document.addEventListener('DOMContentLoaded', () => {
             clearPreviewBtn.classList.remove('hidden');
 
         } catch (error: any) {
-            alert(`미리보기 오류: ${error.message}`);
+            console.error('Barcode generation error:', error);
+            alert(`미리보기 오류: ${error.message || '바코드 생성에 실패했습니다.'}`);
         } finally {
             setLoadingState(previewBtn, false, '생성 중...', '첫 번째 바코드 미리보기');
         }

@@ -12,21 +12,18 @@ let server: any = null;
 // 바코드 타입별 설정
 const BARCODE_CONFIGS = {
     'itf14': {
-        bcid: 'interleaved2of5',
+        bcid: 'itf14',
         length: 14,
         options: {
-            bordertop: 8,
-            borderbottom: 8,
-            borderleft: 8,
-            borderright: 8,
+            textyoffset: 5,
+            includecheck: true
         }
     },
     'ean13': {
         bcid: 'ean13',
         length: [12, 13],
         options: {
-            // textgaps: 0,
-            // showchecksum: true
+            textyoffset: -5
         }
     }
 } as const;
@@ -80,10 +77,10 @@ function generateBarcodeWithBwip({ code, type, xScale, yScale, outPath, fileForm
             const bwipOptions: any = {
                 bcid: config.bcid,
                 text: code,
-                scale: Math.max(3, xScale),
+                scalex: Math.max(3, xScale),
+                scaley: Math.max(3, yScale),
                 includetext: true,
                 textsize: 11,
-                textyoffset: -5,
                 textfont: 'OCRB',
                 guardwhitespace: true,
                 barcolor: '000000',
