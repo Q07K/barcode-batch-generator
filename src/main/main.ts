@@ -24,7 +24,10 @@ const BARCODE_CONFIGS = {
     'ean13': {
         bcid: 'ean13',
         length: [12, 13],
-        options: {}
+        options: {
+            // textgaps: 0,
+            // showchecksum: true
+        }
     }
 } as const;
 
@@ -59,11 +62,11 @@ function validateCode(code: string, type: string): boolean {
 /**
  * bwip-js를 사용하여 바코드 파일 생성
  */
-function generateBarcodeWithBwip({ code, type, heightMM, widthMM, outPath, fileFormat = 'png' }: {
+function generateBarcodeWithBwip({ code, type, xScale, yScale, outPath, fileFormat = 'png' }: {
     code: string;
     type: string;
-    heightMM: number;
-    widthMM: number;
+    xScale: number;
+    yScale: number;
     outPath: string;
     fileFormat?: string;
 }): Promise<string> {
@@ -77,16 +80,12 @@ function generateBarcodeWithBwip({ code, type, heightMM, widthMM, outPath, fileF
             const bwipOptions: any = {
                 bcid: config.bcid,
                 text: code,
-                scale: Math.max(3, widthMM),
-                height: Math.max(20, heightMM / 3),
+                scale: Math.max(3, xScale),
                 includetext: true,
-                textxalign: 'center' as const,
-                textyalign: 'below' as const,
-                textyoffset: 5,
-                textsize: 12,
+                textsize: 11,
+                textyoffset: -5,
+                textfont: 'OCRB',
                 guardwhitespace: true,
-                paddingwidth: 20,
-                paddingheight: 30,
                 barcolor: '000000',
                 backgroundcolor: 'FFFFFF',
                 ...config.options
@@ -208,7 +207,7 @@ function startServer() {
         console.log('Preview API called with body:', req.body); // Debug log
         
         try {
-            const { code, heightMM, widthMM, fileFormat } = req.body;
+            const { code, xScale, yScale, fileFormat } = req.body;
 
             if (!code?.trim()) {
                 console.log('No code provided'); // Debug log
@@ -226,16 +225,16 @@ function startServer() {
                 });
             }
 
-            const h = Number(heightMM) || 32;
-            const w = Number(widthMM) || 2;
+            const xScaleValue = Number(xScale) || 2;
+            const yScaleValue = Number(yScale) || 2;
             const format = fileFormat || 'png';
             const extension = format === 'svg' ? '.svg' : format === 'eps' ? '.eps' : '.png';
             const filename = `preview_${cleanCode}_${Date.now()}${extension}`;
             const outPath = path.join(app.getPath('temp'), filename);
 
-            console.log('Generating barcode with params:', { code: cleanCode, type, heightMM: h, widthMM: w, outPath, fileFormat: format }); // Debug log
+            console.log('Generating barcode with params:', { code: cleanCode, type, xScale: xScaleValue, yScale: yScaleValue, outPath, fileFormat: format }); // Debug log
 
-            await generateBarcodeWithBwip({ code: cleanCode, type, heightMM: h, widthMM: w, outPath, fileFormat: format });
+            await generateBarcodeWithBwip({ code: cleanCode, type, xScale: xScaleValue, yScale: yScaleValue, outPath, fileFormat: format });
             
             console.log('Barcode generated successfully at:', outPath); // Debug log
             
@@ -273,7 +272,7 @@ function startServer() {
         }
 
         try {
-            const { barcodeNumbers, heightMM, widthMM, filenamePrefix, fileFormat } = req.body;
+            const { barcodeNumbers, xScale, yScale, filenamePrefix, fileFormat } = req.body;
 
             if (!Array.isArray(barcodeNumbers) || barcodeNumbers.length === 0) {
                 return res.status(400).json({ error: '바코드 번호가 제공되지 않았습니다.' });
@@ -290,8 +289,8 @@ function startServer() {
             const successfulFiles: string[] = [];
             const failedCodes: Array<{ code: string; reason: string }> = [];
 
-            const h = Number(heightMM) || 32;
-            const w = Number(widthMM) || 2;
+            const xScaleValue = Number(xScale) || 2;
+            const yScaleValue = Number(yScale) || 2;
             const format = fileFormat || 'png';
             const extension = format === 'svg' ? '.svg' : format === 'eps' ? '.eps' : '.png';
             
@@ -311,7 +310,7 @@ function startServer() {
                 const outPath = path.join(outDir, filename);
 
                 try {
-                    await generateBarcodeWithBwip({ code, type, heightMM: h, widthMM: w, outPath, fileFormat: format });
+                    await generateBarcodeWithBwip({ code, type, xScale: xScaleValue, yScale: yScaleValue, outPath, fileFormat: format });
                     successfulFiles.push(filename);
                 } catch (e: any) {
                     failedCodes.push({ code: rawCode, reason: e.message });
@@ -343,8 +342,8 @@ function startServer() {
                 generationDate: new Date().toISOString(),
                 note: '바코드 종류는 자동으로 감지됩니다 (14자리: ITF-14, 12~13자리: EAN-13)',
                 options: { 
-                    heightMM: h, 
-                    widthMM: w,
+                    xScale: xScaleValue, 
+                    yScale: yScaleValue,
                     fileFormat: format,
                     filenamePrefix: filenamePrefix || '' 
                 },

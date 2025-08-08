@@ -49,8 +49,8 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // 공통 함수: 옵션 값들 가져오기
     const getOptions = () => ({
-        heightMM: (document.getElementById('heightMM') as HTMLInputElement).value,
-        widthMM: (document.getElementById('widthMM') as HTMLInputElement).value,
+        xScale: (document.getElementById('xScale') as HTMLInputElement).value,
+        yScale: (document.getElementById('yScale') as HTMLInputElement).value,
         filenamePrefix: (document.getElementById('filenamePrefix') as HTMLInputElement).value,
         fileFormat: (document.getElementById('fileFormat') as HTMLSelectElement).value
     });
@@ -115,8 +115,8 @@ document.addEventListener('DOMContentLoaded', () => {
                     <div class="text-sm text-gray-600">
                         <p><strong>번호:</strong> ${result.code}</p>
                         <p><strong>타입:</strong> ${result.type}</p>
-                        <p><strong>높이:</strong> ${options.heightMM}mm</p>
-                        <p><strong>너비 배율:</strong> ${options.widthMM}x</p>
+                        <p><strong>X 스케일:</strong> ${options.xScale}x</p>
+                        <p><strong>Y 스케일:</strong> ${options.yScale}x</p>
                         <p><strong>파일 형식:</strong> ${options.fileFormat.toUpperCase()}</p>
                     </div>
                 </div>
